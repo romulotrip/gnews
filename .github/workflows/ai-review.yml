@@ -26,7 +26,7 @@ jobs:
           provider: 'gemini'
           api_key: ${{ secrets.GEMINI_API_KEY }}
           pr_number: ${{ github.event.pull_request.number }}
-          review_level: 'diff'
+          review_level: 'file'
           include_globs: '**/*.java,**/*.xml,**/*.yml,src/**/*.java'
           exclude_globs: '**/*.md,**/*.txt,**/package-lock.json'
           rules: |
