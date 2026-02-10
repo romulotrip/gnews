@@ -25,8 +25,9 @@ jobs:
         with:
           provider: 'gemini'
           api_key: ${{ secrets.GEMINI_API_KEY }}
-          LANGUAGE: Portuguese
-          MODEL: gemini-2.5-pro
+          review_level: 'diff'
+          include_globs: '**/*.java,**/*.xml,**/*.yml'
+          exclude_globs: '**/*.md,**/*.txt,**/package-lock.json'
           rules: |
             Responda sempre em Português.
             Aja como um Engenheiro de Segurança Sênior (DevSecOps).
