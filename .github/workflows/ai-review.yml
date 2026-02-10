@@ -6,27 +6,24 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write # Necessário para comentar no PR
+  pull-requests: write
+  issues: write
 
 jobs:
   review:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
+      - name: Gemini AI Code Review
+        uses: legiaquan/code-review-action@v1
         with:
-          fetch-depth: 0
-
-      - name: Gemini AI Reviewer
-        uses: truongnh1992/gemini-ai-code-reviewer@main
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GEMINI_API_KEY: AIzaSyCTX5Mqfx4cYkfZRKY0wMaBtbW0l5qq0l0
-          GEMINI_MODEL: gemini-2.5-flash
-          EXCLUDE: "*.md,*.txt,package-lock.json"
-          CUSTOM_PROMPT: |
-            Aja como um Engenheiro de Segurança Sênior (DevSecOps).
+          provider: 'gemini'
+          api_key: AIzaSyCTX5Mqfx4cYkfZRKY0wMaBtbW0l5qq0l0
+          pr_number: ${{ github.event.pull_request.number }}
+          review_level: 'diff'
+          exclude_globs: '**/*.md,**/*.txt,**/package-lock.json,**/*.yml,**/*.yaml'
+          rules: |
             Responda sempre em Português.
+            Aja como um Engenheiro de Segurança Sênior (DevSecOps).
             Analise o DIFF deste Pull Request buscando:
             1. Vulnerabilidades OWASP Top 10 (especialmente SQL Injection e Insecure Deserialization).
             2. Code Smells e complexidade ciclomática desnecessária.
